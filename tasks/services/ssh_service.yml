@@ -204,6 +204,20 @@
   - SC
   - SC-13
 
+
+- name: Print Last Log
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^PrintLastLog"
+    line: PrintLastLog yes
+  tags:
+  - AC
+  - AC-9
+  - IA
+  - IA-7
+  - SC
+  - SC-13
+
 - name: Find SSH Keys
   find:
     paths: "/etc/ssh/"

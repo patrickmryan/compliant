@@ -6,3 +6,4 @@
 - import_tasks: firewalld.yml
 - import_tasks: uncommon_network_protocols.yml
 - import_tasks: ipsec_support.yml
+- import_tasks: network_time_configuration.yml

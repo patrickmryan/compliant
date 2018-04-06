@@ -1,0 +1,14 @@
+- name: Configure NTP Maxpoll Interval
+  lineinfile:
+    dest: /etc/ntp.conf
+    create: yes
+    regexp: '^maxpoll'
+    line: "maxpoll 17"
+  tags:
+    - conf-low
+    - conf-medium
+    - conf-high
+    - int-low
+    - int-medium
+    - int-high
+    - AU-8(1)(a)

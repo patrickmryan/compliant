@@ -128,15 +128,32 @@
     - IA
     - IA-5
 
+# - name: Set Deny, Lockout Time, and Interval Count For Failed Password Attempts in /etc/pam.d/system-auth (1/3)
+#   lineinfile:
+#     dest: /etc/pam.d/system-auth
+#     insertbefore: "^auth.*pam_unix.so.*"
+#     line: "auth         required      pam_faillock.so preauth silent deny=3 unlock_time=never fail_interval=900"
+#   tags:
+#   - AC
+#   - AC-7
+#   - AC-7(a)
+
 - name: Set Deny, Lockout Time, and Interval Count For Failed Password Attempts in /etc/pam.d/system-auth (1/3)
-  lineinfile:
-    dest: /etc/pam.d/system-auth
-    insertbefore: "^auth.*pam_unix.so.*"
-    line: "auth         required      pam_faillock.so preauth silent deny=3 unlock_time=never fail_interval=900"
-  tags:
-  - AC
-  - AC-7
-  - AC-7(a)
+  pamd:
+    name: system-auth
+    type: auth
+    control: required
+    module_path: pam_unix.so.*  
+    new_type: auth
+    new_control: required
+    new_module_path: pam_faillock.so
+    module_arguments:
+      - preauth
+      - silent
+      - deny=3
+      - unlock_time=never
+      - fail_interval=900
+    state: args_present
 
 - name: Set Deny, Lockout Time, and Interval Count For Failed Password Attempts in /etc/pam.d/system-auth (2/3)
   lineinfile:
@@ -170,6 +187,7 @@
   - AC
   - AC-7
   - AC-7(a)
+
 - name: Configure even_deny_root for Failed Password Attempts in /etc/pam.d/password-auth
   pamd:
     name: password-auth
